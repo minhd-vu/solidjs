@@ -1,6 +1,6 @@
 import axios from "axios";
-import { Button } from "solid-bootstrap";
-import { Component, createSignal } from "solid-js";
+import { Badge, Button, Card } from "solid-bootstrap";
+import { Component, createSignal, For } from "solid-js";
 
 import styles from "./App.module.css";
 
@@ -24,6 +24,23 @@ const GenerateActivity = async () => {
   console.log(activity());
 };
 
+const oddBadge = {
+  color: "black",
+  background: "#e9c9c9",
+  "background-color": "#e9c9c9",
+};
+
+const evenBadge = {
+  color: "black",
+  background: "#d1a9b8",
+  "background-color": "#d1a9b8",
+};
+
+const CreateRating = (rating: number, scalar=10) => {
+  rating *= scalar;
+  return rating + "/" + scalar
+}
+
 const App: Component = () => {
   return (
     <div class={styles.App}>
@@ -38,7 +55,37 @@ const App: Component = () => {
         >
           Generate Activity
         </Button>
-        <h3>{activity()?.activity}</h3>
+        <br />
+        {activity() && (
+          <Card style={{ width: "30rem", color: "black" }}>
+            <Card.Body>
+              <Card.Title>{activity()?.activity}</Card.Title>
+              <Card.Text>
+                <For
+                  each={[
+                    activity()?.type,
+                    CreateRating(activity()?.accessibility!) + " accessibility",
+                    activity()?.participants +
+                      " participant" +
+                      (activity()?.participants! > 1 ? "s" : ""),
+                    CreateRating(activity()?.price!) + " price",
+                  ]}
+                  fallback={<div>Loading...</div>}
+                >
+                  {(item, index) => (
+                    <Badge
+                      class="mx-1"
+                      bg=""
+                      style={index() % 2 ? oddBadge : evenBadge}
+                    >
+                      {item}
+                    </Badge>
+                  )}
+                </For>
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        )}
       </header>
     </div>
   );

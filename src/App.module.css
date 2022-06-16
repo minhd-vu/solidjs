@@ -15,8 +15,20 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  /* font-size: calc(10px + 2vmin); */
   color: white;
+}
+
+.odd-button {
+  color: "black";
+  background: "#e9c9c9";
+  background-color: "#e9c9c9";
+}
+
+.even-button {
+  color: "black";
+  background: "#d1a9b8";
+  background-color: "#d1a9b8";
 }
 
 .link {
